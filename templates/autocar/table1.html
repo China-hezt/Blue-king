@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>kendo UI</title>
+
+    <!--蓝鲸平台APP 公用的样式文件 -->
+    <link href="https://magicbox.bkclouds.cc/static_api/v3/bk/css/bk.css?v=1.0.1" rel="stylesheet">
+    <link href="${STATIC_URL}autocar/css/base.css" type="text/css" rel="stylesheet">
+    <link href="${STATIC_URL}autocar/css/common.css" type="text/css" rel="stylesheet">
+    <link href="${STATIC_URL}autocar/css/pages.css" type="text/css" rel="stylesheet">
+    <link href="https://magicbox.bkclouds.cc/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="https://magicbox.bkclouds.cc/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.metro.min.css" rel="stylesheet">
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/html5shiv.min.js"></script>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        // 创建多选下拉菜单元素
+        var required = $("#required").kendoMultiSelect().data("kendoMultiSelect");
+        var optional = $("#optional").kendoMultiSelect().data("kendoMultiSelect");
+
+        $("#get").click(function() {
+            alert("Attendees:\n\nRequired: " + required.value() + "\nOptional: " + optional.value());
+        });
+        // 创建数据表
+        $("#grid").kendoGrid({
+            dataSource: {
+                pageSize: 2
+            },
+            sortable: true,
+            scrollable: false,
+            pageable: {
+                pageSizes: true,
+                buttonCount: 5
+            }
+        });
+    });
+    </script>
+</head>
+<body>
+<!-- 顶部logo nav start -->
+<div class="header">
+    <div class="w_940">
+        <div class="logo_wrap f_l">
+            <a href="javascript:;" title="汽车之家">logo标题</a>
+        </div>
+        <div class="nav_wrap theme_default_nav f_r">
+            <ul>
+                <li><a href="index.html">首页</a>
+                </li>
+                <li class="active"><a href="table1.html">数据查询</a>
+                </li>
+                <li><a href="table2.html">业务管理</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- 顶部logo nav end -->
+
+<!-- 用户当前位置 start -->
+<div class="breadcrumb_wrap theme_default_location clearfix">
+    <div class="w_940">
+        <span>当前位置：</span>
+        <ul>
+            <li><a href="javascript:;">首页</a>
+            </li>
+            <li><i class="k-icon k-i-arrowhead-e"></i>
+            </li>
+            <li><a href="javascript:;">数据查询</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 用户当前位置 end -->
+<!-- 主体内容 start -->
+<div class="main_wrap w_940 clearfix">
+    <!-- 多项过滤筛选组件 start -->
+    <div class="filter_wrap">
+        <div class="filter_item">
+          <form action="action_page.php">
+            品牌: <input type="text" name="Brand" id="Brand">
+            型号: <input type="text" name="Model" id="Model">
+            出厂日期:<input type="text" name="Year" id="Year"><br>
+            车型:<input type="text" name="Type" id="Type">
+            冷气机配备:<input type="text" name="Cooler" id="Cooler">
+
+
+        </div>
+      <!-- 多项过滤筛选组件 end -->
+
+    <!-- 带图标的按钮组 start  -->
+    <div class="btn_group_wrap btn_group_inline">
+        <a class="k-button" id="search"><i class="k-icon k-i-search"></i> 查询</a>
+        <a class="k-button"><i class="k-icon k-i-refresh"></i> 刷新</a>
+        <a class="k-button"><i class="k-icon k-i-restore"></i> 重置条件</a>
+        <a class="k-button"><i class="k-icon k-i-pencil"></i> 修改</a>
+        <a class="k-button"><i class="k-icon k-i-close"></i> 删除</a>
+    </div>
+    <!-- 带图标的按钮组 end -->
+
+    <!-- 表格 start -->
+    <div class="table_wrap" style="margin-top:20px;">
+        <table id="grid">
+            <thead>
+                <tr>
+                    <th data-field="make" width="20%">汽车品牌</th>
+                    <th data-field="model" width="20%">型号</th>
+                    <th data-field="year" width="20%">出厂年份</th>
+                    <th data-field="category" width="20%">车型</th>
+                    <th data-field="airconditioner" width="20%">冷气机配备</th>
+                </tr>
+            </thead>
+            <tbody>
+            % for list in lists:
+                <tr>
+                    <td style="width=20%">${list.Brand}</td>
+                    <td style="width=20%">${list.Model}</td>
+                    <td style="width=20%">${list.Year}</td>
+                    <td style="width=20%">${list.Type}</td>
+                    <td style="width=20%">${list.Cooler}</td>
+                </tr>
+            %endfor
+            </tbody>
+        </table>
+    </div>
+    <!-- 表格 end -->
+</div>
+<!-- 主体内容 end -->
+<script type="text/javascript">
+        $("#search").click(function(){
+            var Brand = $("#Brand").val();
+            var Model = $("#Model").val();
+            var Year = $("#Year").val();
+            var url = '${SITE_URL}table1_1/?Brand='+Brand+'&Model='+Model+'&Year='+Year;
+
+            console.log(url);
+
+            window.location.href = url;
+        })
+    </script></body>
+</html>

@@ -1,0 +1,104 @@
+<%inherit file='/base.html' />
+
+
+<%block name='content'>
+
+
+<!-- 表单校验, jquery.validate.js,  官方文档: https://jqueryvalidation.org/documentation/ -->
+<!-- TODO: 请将代码移动至base.html -->
+<script src="https://magicbox.bkclouds.cc/static_api/v3/assets/validate1.14.0/js/jquery.validate.js"></script>
+
+
+<div style="display: none" id="error_msg_div">
+   <div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+         <div id="error_msg"></div>
+   </div>
+</div>
+
+<form class="form-horizontal validate-form" id="id_form" method="post" novalidate="novalidate">
+  <input type="hidden" id="id_id" name="id" value="${ obj.id }">
+
+    <div class="form-group">
+        <label class="control-label col-sm-2">书名 </label>
+        <div class="col-sm-7">
+            <input type="text" id="id_name" name="name" value="${ obj.name }" class="form-control" >
+        </div>
+    </div>
+    
+
+    <div class="form-group">
+        <label class="control-label col-sm-2">作者 </label>
+        <div class="col-sm-7">
+            
+        <select id="id_author" name="author" class="form-control">
+            % for author in authors:
+                <option value="${ author.id }" ${ 'selected' if author.id == obj.author.id else '' } > ${ author } </option>
+             % endfor
+        </select>
+        
+        </div>
+    </div>
+    
+  <hr>
+  <div class="form-group">
+        <label class="control-label col-sm-2"></label>
+        <div class="col-sm-7">
+            <button class="king-btn king-info mr10" id="submit">提交</button>
+            <a class="king-btn king-default" href="${SITE_URL}model_test/book/"> 回到列表 </a>
+        </div>
+    </div>
+</form>
+
+<script>
+$(function () {
+  $("#submit").click(function(e) {
+    // prevent default submit
+    e.preventDefault();
+
+    // prevent if not valid
+    if (!$("#id_form").valid()) {
+      return false;
+    }
+
+    $.ajax({
+      url: '${SITE_URL}model_test/book/update/${obj.id}/',
+      type: 'post',
+      dataType: 'json',
+      data: $('form#id_form').serialize(),
+      success: function(data) {
+        if (data.result) {
+          // success
+          window.location.href = "${SITE_URL}model_test/book/"
+        } else {
+          // fail
+          $("#error_msg").html(data.message);
+          $("#error_msg_div").show();
+        }
+      }
+    });
+
+  });
+
+  
+
+    /* 表单验证 */
+    $('.validate-form').validate({
+      "errorElement": "span", 
+      "messages": {
+            "name": {
+                  "maxlength": "书名不能超过32个字符"
+            }
+      }, 
+      "rules": {
+            "name": {
+                  "maxlength": 32
+            }
+      }
+});
+    
+
+})
+</script>
+
+
+</%block>

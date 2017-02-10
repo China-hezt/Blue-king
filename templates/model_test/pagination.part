@@ -1,0 +1,60 @@
+
+
+
+        <div class="pull-right">
+        <div class="pagination" style="margin-top: 0">
+            <%
+                # 计算分页临近页数代码
+                from django.conf import settings
+                # 分页临近页数
+                adjacent_pages = getattr(settings, 'ADJACENT_PAGES', 3)
+                start_page = max(records.number - adjacent_pages, 1)
+                if start_page < adjacent_pages:
+                    start_page = 1
+                end_page = records.number + adjacent_pages + 1
+                if end_page > records.paginator.num_pages - adjacent_pages + 2:
+                    end_page = records.paginator.num_pages + 1
+                page_numbers = [n for n in range(start_page, end_page)]
+                show_first =  1 not in page_numbers
+                show_last =  records.paginator.num_pages not in page_numbers
+            %>
+            <span class="step-links">
+                <!-- <span class="current">
+                    Page ${ records.number } of ${ records.paginator.num_pages }.
+                </span> -->
+                <ul class="pagination pagination-centered" style="margin-top: 0">
+                % if records.has_previous():
+                    <li><a href="?page=${ records.previous_page_number() }">上一页</a></li>
+                % else:
+                    <li class="disabled"><a href="#" onclick="return false;">上一页</a></li>
+                % endif
+
+                 %if show_first:
+                  <li><a href="?page=1">1</a></li>
+                  <li class="disabled ellipsis"><a href="###">...</a></li>
+                 % endif
+
+                % for page in page_numbers:
+                    % if records.number != page:
+                        <li><a href="?page=${ page }"> ${ page } </a></li>
+                    % else:
+                        <li class="active"><a href="#" onclick="return false;"> ${ page } </a></li>
+                    % endif
+                % endfor
+
+                % if show_last:
+                  <li class="disabled ellipsis"><a href="###">...</a></li>
+                  <li><a href="?page=${records.paginator.num_pages}">${records.paginator.num_pages}</a></li>
+                % endif
+
+                % if records.has_next():
+                    <li><a href="?page=${ records.next_page_number() }">下一页</a></li>
+                % else:
+                    <li class="disabled"><a href="#" onclick="return false;">下一页</a></li>
+                % endif
+                </ul>
+            </span>
+        </div>
+        </div>
+        
+

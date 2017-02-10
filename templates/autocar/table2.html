@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>kendo UI</title>
+
+    <!--蓝鲸平台APP 公用的样式文件 -->
+    <link href="https://magicbox.bkclouds.cc/static_api/v3/bk/css/bk.css?v=1.0.1" rel="stylesheet">
+    <link href="${STATIC_URL}autocar/css/base.css" type="text/css" rel="stylesheet">
+    <link href="${STATIC_URL}autocar/css/common.css" type="text/css" rel="stylesheet">
+    <link href="${STATIC_URL}autocar/css/pages.css" type="text/css" rel="stylesheet">
+    <link href="https://magicbox.bkclouds.cc/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="https://magicbox.bkclouds.cc/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.metro.min.css" rel="stylesheet">
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/html5shiv.min.js"></script>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/kendoui-2015.2.624/examples/content/shared/js/console.js"></script>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/kendoui-2015.2.624/examples/content/shared/js/people.js"></script>
+    <script>
+        $(document).ready(function() {
+            //侧边栏
+            var initMenu = function () { $("#menu").kendoMenu({ orientation: 'vertical' }) .css({ width: "140px" }); };
+            initMenu();
+            // 创建多选下拉菜单元素
+            var required = $("#required").kendoMultiSelect().data("kendoMultiSelect");
+            var optional = $("#optional").kendoMultiSelect().data("kendoMultiSelect");
+
+            $("#get").click(function() {
+                alert("Attendees:\n\nRequired: " + required.value() + "\nOptional: " + optional.value());
+            });
+            // 创建数据表
+            $("#grid").kendoGrid({
+                dataSource: {
+                    pageSize: 10
+                },
+                sortable: true,
+                scrollable: false,
+                pageable: {
+                    pageSizes: true,
+                    buttonCount: 5
+                }
+            });
+       // 输入提示
+        var data = [ "神马区", "Andorra", "Armenia", "Austria", "Azerbaijan", "Belarus", "Belgium", "Bosnia & Herzegovina", "Bulgaria", "Croatia", "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France", "Georgia", "Germany", "Greece", "Hungary", "Iceland", "Ireland", "Italy", "Kosovo", "Latvia", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Malta", "Moldova", "Monaco", "Montenegro", "Netherlands", "Norway", "Poland", "Portugal", "Romania", "Russia", "San Marino", "Serbia", "Slovakia", "Slovenia", "Spain", "Sweden", "Switzerland", "Turkey", "Ukraine", "United Kingdom", "Vatican City" ];
+
+        $("#tip_input").kendoAutoComplete({
+            dataSource: data,
+            filter: "startswith",
+            placeholder: "大区还是神马...",
+            separator: ", "
+        });
+
+        // combox
+        $("#input").kendoComboBox({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: [
+                { text: "Cotton", value: "1" },
+                { text: "Polyester", value: "2" },
+                { text: "Cotton/Polyester", value: "3" },
+                { text: "Rib Knit", value: "4" }
+            ],
+            filter: "contains",
+            suggest: true,
+            index: 3
+        });
+
+
+        $("#select,#select2").kendoComboBox();
+
+        var input = $("#input").data("kendoComboBox");
+        var select = $("#select").data("kendoComboBox");
+
+        // 开始结束时间
+        function startChange() {
+            var startTime = start.value();
+
+            if (startTime) {
+                startTime = new Date(startTime);
+
+                end.max(startTime);
+
+                startTime.setMinutes(startTime.getMinutes() + this.options.interval);
+
+                end.min(startTime);
+                end.value(startTime);
+            }
+        }
+
+        var start = $("#start3").kendoTimePicker({
+            change: startChange
+        }).data("kendoTimePicker");
+
+        var end = $("#end3").kendoTimePicker().data("kendoTimePicker");
+
+        start.min("8:00 AM");
+        start.max("6:00 PM");
+
+        end.min("8:00 AM");
+        end.max("7:30 AM");
+        });
+    </script>
+    <script>
+        $(document).ready(function(){
+            var grid = $("#grid1").kendoGrid({
+            dataSource: {
+               pageSize: 10,
+               data: createRandomData(1)
+            },
+            scrollable: false,
+            pageable: true,
+            height: 434,
+            toolbar: ["create"],
+            columns: [
+                { field: "FirstName", title: "姓名", width: "140px" },
+                { field: "Age", title: "年龄", width: "140px" },
+                { field: "Title", title: "职业" },
+                /*{ command: [{ text: "编辑", click: actionFun }, { text:"删除", click: actionFun}], title: "用户操作", width: "180px" }*/
+                { command: ["edit", "destroy"], title: "&nbsp;", width: "180px"}],
+            editable: "inline"
+            }).data("kendoGrid");
+
+        })
+
+        function actionFun(e){
+            e.preventDefault();
+            // 这里是具体操作...
+        }
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="w_940">
+        <div class="logo_wrap f_l">
+            <a href="javascript:;" title="QQ游戏中心">logo标题</a>
+        </div>
+        <div class="nav_wrap f_r">
+            <ul>
+                <li><a href="index.html">首页</a>
+                </li>
+                <li><a href="table1.html">数据查询</a>
+                </li>
+                <li class="active"><a href="table2.html">业务管理</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- 主体内容 start -->
+<div class="main_wrap w_940 clearfix">
+    <!-- 侧边栏 start
+    <div class="sidebar_wrap f_l">
+        <ul id="menu">
+            <li>
+                华东大区
+                <ul>
+                    <li><a href="javascript:;">大区一</a>
+                    </li>
+                    <li><a href="javascript:;">大区二</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                北方大区
+                <ul>
+                    <li><a href="javascript:;">大区一</a>
+                    </li>
+                    <li><a href="javascript:;">大区二</a>
+                </ul>
+            </li>
+            <li>
+                华南大区
+                <ul>
+                    <li><a href="javascript:;">大区一</a>
+                    </li>
+                    <li><a href="javascript:;">大区二</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">上海区</a>
+            </li>
+        </ul>
+    </div>
+     侧边栏 end -->
+
+    <div class="content_wrap multi_options_filter_wrap f_r">
+        <div class="data_form_wrap clearfix">
+            <form action="###" method="">
+                <p>
+                    <label for="tip_input">输入提示：</label>
+                    <input type="text" id="tip_input" placeholder="输入提示" />
+                </p>
+                <p>
+                    <label for="input">可输入的：</label>
+                    <select id="input" placeholder="Select fabric...">
+                        <option value="000">X-Small</option>
+                        <option value="000">Small</option>
+                        <option value="000">Medium</option>
+                        <option value="000">Large</option>
+                        <option value="000">X-Large</option>
+                        <option value="000">2X-Large</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="basic_input">远程数据：</label>
+                    <input type="text" id="basic_input" class="basic_input" />
+                </p>
+                <p>
+                    <label for="start3">开始时间：</label>
+                    <input type="text" id="start3" value="8:00 AM" />
+                </p>
+                <p>
+                    <label for="end3">结束时间：</label>
+                    <input type="text" id="end3" value="8:30 AM" />
+                </p>
+                <p class="multi_options">
+                    <label>多选项标签：</label>
+                    <label>
+                        <input type="checkbox">
+                        <span>两字</span>
+                    </label>
+                    <label>
+                        <input type="checkbox">
+                        <span>四个字的</span>
+                    </label>
+                </p>
+            </form>
+        </div>
+
+        <div class="btn_group_wrap  clearfix">
+            <p class="f_r">
+                <a class="k-button"><i class="k-icon k-i-search"></i> 查询</a>
+                <a class="k-button"><i class="k-icon k-i-refresh"></i> 刷新</a>
+                <a class="k-button"><i class="k-icon k-i-restore"></i> 重置条件</a>
+                <a class="k-button"><i class="k-icon k-i-pencil"></i> 修改</a>
+                <a class="k-button"><i class="k-icon k-i-close"></i> 删除</a>
+            </p>
+        </div>
+
+        <div class="result_wrap">
+            <!-- 可升降序表格 start
+            <table id="grid">
+                <thead>
+                    <tr>
+                        <th data-field="make">汽车品牌</th>
+                        <th data-field="model">型号</th>
+                        <th data-field="year">出厂年份</th>
+                        <th data-field="category">车型</th>
+                        <th data-field="airconditioner">冷气机配备</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>沃尔沃</td>
+                        <td>S60</td>
+                        <td>2010</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                    <tr>
+                        <td>奥迪</td>
+                        <td>A4</td>
+                        <td>2002</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                    <tr>
+                        <td>宝马</td>
+                        <td>535d</td>
+                        <td>2006</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                    <tr>
+                        <td>宝马</td>
+                        <td>320d</td>
+                        <td>2006</td>
+                        <td>轿车</td>
+                        <td>否</td>
+                    </tr>
+                    <tr>
+                        <td>大众</td>
+                        <td>帕萨特</td>
+                        <td>2007</td>
+                        <td>轿车</td>
+                        <td>否</td>
+                    </tr>
+                    <tr>
+                        <td>标志</td>
+                        <td>407</td>
+                        <td>2006</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                    <tr>
+                        <td>本田</td>
+                        <td>雅阁</td>
+                        <td>2008</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                    <tr>
+                        <td>别克</td>
+                        <td>英朗GT</td>
+                        <td>2008</td>
+                        <td>轿车</td>
+                        <td>否</td>
+                    </tr>
+                    <tr>
+                        <td>东风日产</td>
+                        <td>Almera</td>
+                        <td>2001</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                    <tr>
+                        <td>三菱</td>
+                        <td>Lancer</td>
+                        <td>2008</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                    <tr>
+                        <td>欧宝</td>
+                        <td>Vectra</td>
+                        <td>2008</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                    <tr>
+                        <td>丰田</td>
+                        <td>逸致</td>
+                        <td>2008</td>
+                        <td>轿车</td>
+                        <td>是</td>
+                    </tr>
+                </tbody>
+            </table>
+             可升降序表格 end -->
+        </div>
+
+        <!-- 带用户按钮操作表格 start -->
+        <div class="data_wrap" style="margin-top:20px;">
+            <div id="grid1" class="table_action_wrap"></div>
+        </div>
+        <!-- 带用户按钮操作表格 end -->
+    </div>
+</div>
+<!--MODULE_END-->
+</body>
+</html>

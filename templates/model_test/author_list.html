@@ -1,0 +1,76 @@
+<%inherit file='/base.html' />
+
+
+<%block name='content'>
+
+<div>
+  <a href="${SITE_URL}model_test/author/create/" class="king-btn king-info">
+    <i class="glyphicon glyphicon-plus mr5"></i>新增
+  </a>
+  <a href="${SITE_URL}model_test/" class="king-btn king-default ml10">回到首页
+  </a>
+</div>
+
+<div class="content">
+    <div style="display: none" id="error_msg_div">
+    <div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <div id="error_msg"></div>
+    </div>
+    </div>
+
+  <table class="table table-bordered table-header-bg table-hover mt10">
+  <thead>
+      <th> 姓名 </th>
+      <th> 操作 </th>
+  </thead>
+
+
+  % if records:
+    % for obj in records:
+    <tr>
+        <td><a href="${SITE_URL}model_test/author/${obj.id}/"> ${ obj.name } </a></td>
+        <td>
+          <a class="btn btn-xs btn-primary edit_btn" title="编辑" href="${SITE_URL}model_test/author/update/${obj.id}/"> <i class="glyphicon glyphicon-edit"></i></a>
+          <button class="btn btn-xs btn-danger del_btn" title="删除" data="${SITE_URL}model_test/author/delete/${obj.id}/"> <i class="glyphicon glyphicon-remove"></i></button>
+        </td>
+    </tr>
+    % endfor
+  % else:
+    <tr class="tc"><td colspan="2">没有数据</td></tr>
+  % endif
+  </table>
+</div>
+
+<div class="pull-right">
+    <div class="pagination" style="margin-top: 0">
+        <%include file="./pagination.part"/>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        // register and do something
+        $(".del_btn").click(function() {
+            var url = $(this).attr("data");
+            $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            data: {},
+            success: function(data) {
+                if (data.result) {
+                    // success
+                    window.location.href = "${SITE_URL}model_test/author/"
+                } else {
+                    // fail
+                    $("#error_msg").html(data.message);
+                    $("#error_msg_div").show();
+                }
+            }
+            })
+
+        })
+    })
+</script>
+
+</%block>

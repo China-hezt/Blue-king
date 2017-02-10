@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>hezt</title>
+    <!-- Bootstrap css -->
+    <link href="https://magicbox.bkclouds.cc/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://magicbox.bkclouds.cc/static_api/v3/assets/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <!-- 当前项目样式文件 -->
+    <link href="${STATIC_URL}autocar/css/sb-admin.css" rel="stylesheet">
+    <link href="${STATIC_URL}autocar/css/sb-bk-theme.css" rel="stylesheet">
+    <!--蓝鲸平台APP 公用的样式文件 -->
+
+ 	<link href="https://magicbox.bkclouds.cc/static_api/v3/bk/css/bk.css?v=1.0.1" rel="stylesheet">
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/html5shiv.min.js"></script>
+    <script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                    <i class="fa fa-leaf f20 mr5"></i>
+                    库存管理系统
+                </a>
+            </div>
+            <!-- Top Menu Items -->
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> 首页</a>
+                    </li>
+                    <li class="active">
+                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> 表格</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+                <div class="row page-header-box">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            表格
+                        </h1>
+                    </div>
+                </div>
+                <!-- Page Heading -->
+                <div class="panel panel-default">
+                	<div class="panel-heading">
+                		查询条件
+                	</div>
+                	<div class='panel-body'>
+                		<div class="row">
+                		<form role="form">
+                			<div class="col-sm-6 col-md-6 col-lg-4">
+							            <div class="form-group">
+							                <div class="input-group">
+							                    <div class="input-group-addon">汽车品牌</div>
+							                    <input class="form-control" name="Brand" id="Brand">
+							                </div>
+							            </div>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-4">
+							            <div class="form-group">
+							            	<div class="input-group">
+							                    <div class="input-group-addon">汽车型号</div>
+							                	<input type="text" class="form-control" name="Model" id="Model">
+							                </div>
+							            </div>
+
+                			</div>
+                			<div class="col-sm-6 col-md-6 col-lg-4">
+                						<div class="form-group">
+							                <div class="input-group">
+							                    <div class="input-group-addon">出厂年份</div>
+							                    <input class="form-control" type="text" name="Year" id="Year">
+							                </div>
+							            </div>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-4">
+							            <div class="form-group">
+							            	<div class="input-group">
+							                    <div class="input-group-addon">汽车用途</div>
+							                	<input type="text" class="form-control" name="Type" id="Type">
+							                </div>
+							            </div>
+                			</div>
+                			<div class="col-sm-6 col-md-6 col-lg-4">
+                											            <div class="form-group">
+							                <div class="input-group">
+							                    <div class="input-group-addon">冷气配备</div>
+							                    <input class="form-control" type="text" name="Cooler" id="Cooler">
+							                </div>
+							            </div>
+							</div>
+							<div class="col-sm-6 col-md-6 col-lg-4">
+							            <div class="form-group">
+							            	<div class="input-group">
+							                    <div class="input-group-addon">配置备注</div>
+							                	<input type="text" class="form-control">
+							                </div>
+							            </div>
+                			</div>
+                			<div class="col-lg-12">
+                				<hr class="mt5 mb15">
+
+                                <button type="submit" class="king-btn king-success" id="search"> 查询</button>
+                				<button type="submit" class="king-btn">重置</button>
+                			</div>
+
+
+                			</form>
+                		</div>
+                	</div>
+                </div>
+                <!---->
+                <div class="panel panel-default">
+                	<div class="panel-heading">
+                		查询结果
+                	</div>
+                	<div class='panel-body'>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                  <tr>
+                                      <th data-field="make" width="20%">汽车品牌</th>
+                                      <th data-field="model" width="20%">型号</th>
+                                      <th data-field="year" width="20%">出厂年份</th>
+                                      <th data-field="category" width="20%">车型</th>
+                                      <th data-field="airconditioner" width="20%">冷气机配备</th>
+                                  </tr>
+                                </thead>
+                            </tbody>
+                                <table
+                                <tbody class="table table-bordered table-hover table-striped">
+                                  % for list in lists:
+                                      <tr>
+                                          <td style="width=20%">${list.Brand}</td>
+                                          <td style="width=20%">${list.Model}</td>
+                                          <td style="width=20%">${list.Year}</td>
+                                          <td style="width=20%">${list.Type}</td>
+                                          <td style="width=20%">${list.Cooler}</td>
+                                      </tr>
+                                  %endfor
+                                </tbody>
+                            </table>
+                        </div>
+                	</div>
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+    <script type="text/javascript">
+            $("#search").click(function(){
+                var Brand = $("#Brand").val();
+                var Model = $("#Model").val();
+                var Year = $("#Year").val();
+                var url = '${SITE_URL}table_1/?Brand='+Brand+'&Model='+Model+'&Year='+Year;
+
+                console.log(url);
+
+                window.location.href = url;
+            })
+    </script>
+	<!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+	<script src="https://magicbox.bkclouds.cc/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+	<!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+	<script src="https://magicbox.bkclouds.cc/static_api/v3/assets/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

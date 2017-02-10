@@ -1,0 +1,47 @@
+<%inherit file='/base.html' />
+
+
+
+<%block name='content'>
+<div style="display: none" id="error_msg_div">
+<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <div id="error_msg"></div>
+</div>
+</div>
+
+<div class="pull-right mb10">
+    <a class="king-btn king-primary" title="编辑" href="${SITE_URL}model_test/author/update/${obj.id}/">编辑</a>
+    <a class="king-btn king-danger" title="删除" href="${SITE_URL}model_test/author/delete/${obj.id}/" id="btn_delete" >删除</a>
+    <a class="king-btn king-default" title="回到列表" href="${SITE_URL}model_test/author/">回到列表</a>
+</div>
+
+<table class="table table-bordered">
+<tr><td width="40%"> name </td><td width="60%"> ${ obj.name } </td></tr>
+</table>
+
+<script>
+$(function () {
+  $("#btn_delete").click(function(e){
+    e.preventDefault();
+    $.ajax({
+      url: '${SITE_URL}model_test/author/delete/${obj.id}/',
+      type: 'post',
+      dataType: 'json',
+      data: {},
+      success: function(data) {
+        if (data.result) {
+          // success
+          window.location.href = "${SITE_URL}model_test/author/"
+        } else {
+          // fail
+          $("#error_msg").html(data.message);
+          $("#error_msg_div").show();
+        }
+      }
+    })
+  });
+
+})
+</script>
+
+</%block>
